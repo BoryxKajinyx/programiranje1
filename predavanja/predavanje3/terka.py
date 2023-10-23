@@ -15,8 +15,6 @@ t = (2, "različno besedilo", True)
 ena, dva, tri, stiri, pet = stevila
 a, b, c, d, e, *_ = "abcdefghij"
 _, _, _, i, *ostali = "fghijklmnop"
-malo = 1
-dosti = 10
 ena, dva = dva, ena
 
 # indeksiranje

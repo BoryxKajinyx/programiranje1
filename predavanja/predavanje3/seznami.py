@@ -10,3 +10,12 @@ podatki = [
     [84, "Franc", False],
 ]
 # To ni priporočeno
+
+#
+
+#
+
+seznam1 = [1, 2, 3, 4, 5]
+seznam2 = [6, 7, 8, 9, 10]
+seznam3 = seznam1 + seznam2
+seznam1 * 3 == seznam1 + seznam1 + seznam1
