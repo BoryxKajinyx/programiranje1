@@ -1,0 +1,4 @@
+-naloge od 3. naprej testiraš z unit testi
+    -preneseš unittest
+    -programiraš funkcije zgoraj
+    -uno preveri delovanje
