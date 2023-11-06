@@ -15,24 +15,22 @@ def najsirsa_ovira(vrstica):
     for x in vrstica:
         if x == "#":
             sirina += 1
+            if sirina > sirina_max:
+                sirina_max = sirina
         if x == ".":
-            sirina_max = max(sirina, sirina_max)
             sirina = 0
-    sirina_max = max(sirina, sirina_max)
     return sirina_max
 
 
 def pretvori_vrstico(vrstica):
     pretvorba = []
     prvi = 0
-    zadnji = 0
-    vrstica = ".." + vrstica + ".."
-    for prej, po, num in zip(vrstica, vrstica[1:], range(-1, len(vrstica)+1)):
-        if prej == "." and po == "#":
+    vrstica = "." + vrstica + "."
+    for prej, po, num in zip(vrstica, vrstica[1:], range(len(vrstica)+1)):
+        if prej + po == ".#":
             prvi = num + 1
-        if prej == "#" and po == ".":
-            zadnji = num
-            pretvorba.append((prvi, zadnji))
+        if prej + po == "#.":
+            pretvorba.append((prvi, num))
     return pretvorba
 
 
@@ -115,7 +113,8 @@ class Test(unittest.TestCase):
             "...###",
             "###.##",
         ]
-        self.assertEqual([(3, 4, 2), (2, 3, 3), (5, 5, 3), (4, 6, 4), (1, 3, 5), (5, 6, 5)], pretvori_zemljevid(zemljevid))
+        self.assertEqual([(3, 4, 2), (2, 3, 3), (5, 5, 3), (4, 6, 4), (1, 3, 5), (5, 6, 5)],
+                         pretvori_zemljevid(zemljevid))
 
         zemljevid = [
             "..............##...",
@@ -174,12 +173,16 @@ class Test(unittest.TestCase):
         ]
 
         dodane, odstranjene = huligani(prej, potem)
-        self.assertEqual([(4, 5, 1), (1, 1, 3), (4, 6, 4), (17, 19, 5), (9, 10, 6), (12, 13, 6)], dodane, "Napaka v seznamu dodanih")
-        self.assertEqual([(15, 16, 1), (3, 5, 2), (9, 13, 6)], odstranjene, "Napaka v seznamu odstranjenih")
+        self.assertEqual([(4, 5, 1), (1, 1, 3), (4, 6, 4), (17, 19, 5), (9, 10, 6), (12, 13, 6)], dodane,
+                         "Napaka v seznamu dodanih")
+        self.assertEqual([(15, 16, 1), (3, 5, 2), (9, 13, 6)], odstranjene,
+                         "Napaka v seznamu odstranjenih")
 
         dodane, odstranjene = huligani(potem, prej)  # Pazi, obrnjeno!
-        self.assertEqual([(15, 16, 1), (3, 5, 2), (9, 13, 6)], dodane, "Napaka v seznamu dodanih")
-        self.assertEqual([(4, 5, 1), (1, 1, 3), (4, 6, 4), (17, 19, 5), (9, 10, 6), (12, 13, 6)], odstranjene, "Napaka v seznamu odstranjenih")
+        self.assertEqual([(15, 16, 1), (3, 5, 2), (9, 13, 6)], dodane,
+                         "Napaka v seznamu dodanih")
+        self.assertEqual([(4, 5, 1), (1, 1, 3), (4, 6, 4), (17, 19, 5), (9, 10, 6), (12, 13, 6)], odstranjene,
+                         "Napaka v seznamu odstranjenih")
 
         self.assertEqual(([], []), huligani(prej, prej))
 
