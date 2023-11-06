@@ -6,9 +6,7 @@ def dolzina_ovir(vrstica):
 
 
 def stevilo_ovir(vrstica):
-    stevilo = 0
-    stevilo += ("."+vrstica).count(".#")
-    return stevilo
+    return len(pretvori_vrstico(vrstica))
 
 
 def najsirsa_ovira(vrstica):
@@ -40,10 +38,9 @@ def pretvori_vrstico(vrstica):
 
 def pretvori_zemljevid(zemljevid):
     pretvorba = []
-    for vrstica, num in zip(zemljevid, range(1, len(zemljevid) + 1)):
+    for num, vrstica in enumerate(zemljevid, start=1):
         for ovira, y in zip(pretvori_vrstico(vrstica), [num] * len(zemljevid)):
-            x1, x2 = ovira
-            pretvorba.append((x1, x2, y))
+            pretvorba.append(ovira + (y,))
     return pretvorba
 
 
