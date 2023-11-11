@@ -62,7 +62,7 @@ def vsi_hashtagi(tviti):
 
 def vse_osebe(tviti):
     seznam_oseb = []
-    seznam_oseb.extend(zberi_se_zacne_z(tviti, "@"))
+    seznam_oseb.extend(vse_afne(tviti))
     seznam_oseb.extend(vsi_avtorji(tviti))
     seznam_oseb = unikati(seznam_oseb)
     seznam_oseb.sort()
