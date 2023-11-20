@@ -29,8 +29,8 @@ def intervali(xs):
 
 
 def zapisi_vrstico(y, xs):
-    zapis = "(" + str(y) + ")"
-    return " ".join([zapis] + intervali(xs))
+    zapis = "(" + str(y) + ")" + " " + " ".join(intervali(xs))
+    return zapis
 
 
 def kljuc_vrstica(zapis):
