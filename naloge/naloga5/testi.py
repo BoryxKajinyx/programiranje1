@@ -33,16 +33,8 @@ def zapisi_vrstico(y, xs):
     return zapis
 
 
-def kljuc_vrstica(zapis):
-    return zapis[-1]
-
-
-def kljuc_stolpec(zapis):
-    return zapis[0]
-
-
 def zapisi(ovire):
-    urejene_ovire = sorted(ovire, key=kljuc_vrstica)
+    urejene_ovire = sorted(ovire, key=lambda x: x[-1])
     vrstice = []
     vrsta = []
     y_prej = None
@@ -52,10 +44,10 @@ def zapisi(ovire):
         if y == y_prej:
             vrsta.append((x1, x2))
         else:
-            vrstice.append((y_prej, sorted(vrsta, key=kljuc_stolpec)))
+            vrstice.append((y_prej, sorted(vrsta, key=lambda x: x[0])))
             vrsta = [(x1, x2)]
             y_prej = y
-    vrstice.append((y_prej, sorted(vrsta, key=kljuc_stolpec)))
+    vrstice.append((y_prej, sorted(vrsta, key=lambda x: x[0])))
     vrste = []
     for y, xs in vrstice:
         vrste.append(zapisi_vrstico(y, xs))
