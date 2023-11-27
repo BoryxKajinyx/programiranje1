@@ -1,6 +1,6 @@
 import unittest
 import ast
-import itertools
+from itertools import pairwise
 
 
 A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, R, S, T, U, V = "ABCDEFGHIJKLMNOPRSTUV"
@@ -75,35 +75,35 @@ mali_zemljevid = {
 
 
 def nove_povezave(pot, z):
-    return {rel for rel in itertools.pairwise(pot) if rel not in z}
+    return set(pairwise(pot)) - set(z)
 
 
 def obiskane_tocke(pot):
-    return {tocka for tocka in pot}
+    return set(pot)
 
 
 def popravljena_pot(pot):
-    return "".join([x for x, y in itertools.pairwise(pot + " ") if x != y])
+    return "".join([x for x, y in pairwise(pot + " ") if x != y])
 
 
 def povezave_z_vescino(pot, z, vescina):
-    return [rel for rel in itertools.pairwise(pot) if vescina in z[rel]]
+    return [rel for rel in pairwise(pot) if vescina in z[rel]]
 
 
 def dolgocasna_pot(pot, z):
-    return any([not bool(z[rel]) for rel in itertools.pairwise(pot)])
+    return any([not z[rel] for rel in pairwise(pot)])
 
 
 def dobra_pot(pot, z):
-    return all([len(z[rel]) >= 2 for rel in itertools.pairwise(pot)])
+    return all([len(z[rel]) >= 2 for rel in pairwise(pot)])
 
 
 def zahtevnost_poti(pot, z):
-    return max([len(z[rel]) for rel in itertools.pairwise(pot)])
+    return max([len(z[rel]) for rel in pairwise(pot)])
 
 
 def izvedljiva(pot, z, zivljenj):
-    return sum([rel not in z for rel in itertools.pairwise(pot)]) < zivljenj
+    return sum([rel not in z for rel in pairwise(pot)]) < zivljenj
 
 
 def enosmerne(z):
@@ -115,7 +115,7 @@ def dvosmerne(z):
 
 
 def najzahtevnejsi_odsek(pot, z):
-    return (lambda x: x[max(x)])({len(z[rel]): rel for rel in itertools.pairwise(pot)})
+    return max(pairwise(pot), key=lambda rel: len(z[rel]))
 
 
 class Test01Obvezna(unittest.TestCase):
