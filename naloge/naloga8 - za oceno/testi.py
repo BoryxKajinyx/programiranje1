@@ -121,10 +121,7 @@ def skupinski_sport(pot, pribitkii):
 
 
 def tekma(pot, pribitkii):
-    tekmeci = {num: 0 for num, pribitki in enumerate(pribitkii)}
-    for povezava in pairwise(pot):
-        tekmeci = {num: porabljen_cas + cas_za_povezavo(povezava, pribitkii[num])
-                   for num, porabljen_cas in tekmeci.items()}
+    tekmeci = {num: cas(pot, pribitki) for num, pribitki in enumerate(pribitkii)}
     najhitrejsi = (None, None)
     for num, porabljen_cas in tekmeci.items():
         if najhitrejsi[1] is None or najhitrejsi[1] > porabljen_cas:
@@ -145,13 +142,13 @@ def trening(pot, pribitki):
 
 def zastavice(pot, pribitkii):
     urniki = [urnik(pot, pribitki) for pribitki in pribitkii]
-    pobrane_zastavice = [0 for x in pribitkii]
     tocke = {}
     for indeks, razpored in enumerate(urniki):
         for tocka, porabljen_cas in razpored.items():
             indeks1, cas1 = tocke.get(tocka, (None, None))
             if tocka not in tocke or porabljen_cas < cas1 or (porabljen_cas == cas1 and indeks < indeks1):
                 tocke[tocka] = (indeks, porabljen_cas)
+    pobrane_zastavice = [0 for x in pribitkii]
     for indeks, _ in tocke.values():
         pobrane_zastavice[indeks] += 1
     return pobrane_zastavice
@@ -159,7 +156,6 @@ def zastavice(pot, pribitkii):
 
 def cikel(zacetna_tocka, pribitki):
     prevozene_povezave = []
-    izbrana_povezava = (None, None)
     originalna_tocka = zacetna_tocka
     for o in range(2):
         if originalna_tocka == zacetna_tocka and prevozene_povezave:
@@ -180,6 +176,25 @@ def cikel(zacetna_tocka, pribitki):
             if izbrana_povezava[0] in prevozene_povezave:
                 zacetna_tocka = izbrana_povezava[0][0]
     return len(prevozene_povezave)
+
+
+def izpadanje(poti, pribitkii):
+    cas_ind_kor = [(0, i, 0) for i in range(len(pribitkii))]
+    pobrano = set()
+    izpadli = []
+    while cas_ind_kor:
+        cajt, ind, kor = min(cas_ind_kor)
+        cas_ind_kor.remove((cajt, ind, kor))
+        pot = poti[ind]
+        tocka = pot[kor]
+        if tocka in pobrano:
+            izpadli.append(ind)
+        else:
+            pobrano.add(tocka)
+            kor += 1
+            if kor < len(pot):
+                cas_ind_kor.append((cajt + cas_za_povezavo((tocka, pot[kor]), pribitkii[ind]), ind, kor))
+    return izpadli
 
 
 pribitki1 = dict(gravel=2, trava=3, lonci=1, bolt=2, pešci=4,
