@@ -1,0 +1,11 @@
+1;0;Racunalniki
+2;0;Monitorji
+3;0;Programska oprema
+4;1;Prenosniki
+5;1;Namizni racunalniki
+6;1;Strezniki
+7;3;Operacijski sistemi
+8;3;Solske licence
+9;3;Antivirusni programi
+10;4;Prenosniki
+11;4;Netbooki

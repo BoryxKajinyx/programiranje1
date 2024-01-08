@@ -1,0 +1,7 @@
+- robni pogoj
+- z vsakim klicem bližje rezultatu
+- lokalne spremenljivke so lokalne glede na klic
+- ne kliči funkcije večkrat z istimi argumenti
+- rekurzija gre v globino
+- uporabi rezultat, ne globalnih spremenljivk  - razen memoizacija!!
+- možna rekurzija od konca do začetka (repna rekurzija) z akumulatorjem
