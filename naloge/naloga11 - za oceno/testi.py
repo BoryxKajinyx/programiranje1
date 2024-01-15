@@ -70,7 +70,7 @@ def angelca(x, y, znamenitosti, zemljevid):
     for c in znamenitosti:
         najbl = najblizji(x, y, c, zemljevid, prepovedani)
         if najbl is None:
-            return koraki
+            break
         x1, y1 = najbl
         koraki += abs(x - x1) + abs(y - y1)
         prepovedani.add((x1, y1))
@@ -84,21 +84,13 @@ def johanca(x, y, pot, zemljevid):
     znamenitosti = ""
     stev = 0
     for korak in pot:
-        match korak:
-            case "<":
-                x -= 1 if not stev else stev
-                stev = 0
-            case ">":
-                x += 1 if not stev else stev
-                stev = 0
-            case "^":
-                y -= 1 if not stev else stev
-                stev = 0
-            case "v":
-                y += 1 if not stev else stev
-                stev = 0
-            case _:
-                stev = stev * 10 * bool(stev) + int(korak)
+        if korak in "<>^v":
+            stevilka = stev or 1
+            x, y = {">": (x + stevilka, y), "<": (x - stevilka, y),
+                    "^": (x, y - stevilka), "v": (x, y + stevilka)}[korak]
+            stev = 0
+        else:
+            stev = stev * 10 * bool(stev) + int(korak)
         if not stev:
             if (x, y) in zemljevid and (x, y) not in prepovedani:
                 znamenitosti += zemljevid[(x, y)]
@@ -107,8 +99,8 @@ def johanca(x, y, pot, zemljevid):
 
 
 def najboljsa_cetrt(a, zemljevid):
-    maks_x = zemljevid[2][0]
-    maks_y = zemljevid[2][1]
+    maks_x, _ = zemljevid[2]
+    _, maks_y = zemljevid[2]
     zemljevid = zemljevid[1]
     naj_cetrt = None
     naj_znam = None
