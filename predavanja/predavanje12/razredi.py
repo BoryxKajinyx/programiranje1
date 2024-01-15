@@ -13,12 +13,36 @@ class Oseba:
 class Student(Oseba):
     def __init__(self, ime, spol):
         super().__init__(ime, spol)
+        self.lokacija = None
+        self.stol = None
         self.ocene = {}
-        self.znanje = {}
+
+    def premakni(self, predavalnica):
+        pass
 
     def oceni(self, predmet, ocena):
         self.ocene[predmet] = ocena
-        self.znanje[predmet] = ocena
+
+    def pozdrav(self):
+        super().pozdrav()
+        if not self.lokacija:
+            print("Nimam pojma, kje sem")
+        else:
+            print(f"Sem v predavalnici {self.lokacija.ime()} na stolu {self.stol}")
+
+    def vstopi(self, predavalnica):
+        self.lokacija = predavalnica
+
+    def kje_sem(self):
+        return self.lokacija
+
+    def sedi(self, stol):
+        if self.kje_sem().zasedeni(stol):
+            self.stol = stol
+
+    def vstani(self):
+        self.kje_sem().sprosti(self.stol)
+        self.stol = None
 
     def kaj_sem(self):
         return "student" if self.spol == "M" else "studentka"
@@ -26,10 +50,7 @@ class Student(Oseba):
 
 class Profesor(Oseba):
     def __init__(self, ime, naziv):
-        if naziv[-1] == "a":
-            spol = "Ž"
-        else:
-            spol = "M"
+        spol = "MŽ"[naziv[-1] == "a"]
         super().__init__(ime, spol)
         self.naziv = naziv
 
@@ -40,5 +61,31 @@ class Profesor(Oseba):
 class Bruc(Student):
     def plonkaj(self, predmet):
         self.oceni(predmet, 10)
-        self.znanje[predmet] = 0
+
+
+class Snazilka(Oseba):
+    def kaj_sem(self):
+        return "snažilka"
+
+
+class Predavalnica(set):
+    def __init__(self, ime, stevilo_stolov):
+        super().__init__()
+        self.ime = ime
+        self.stevilo_stolov = stevilo_stolov
+
+    def zasedeni(self, stol):
+        if stol > self.stevilo_stolov or stol in self:
+            return False
+        else:
+            self.add(stol)
+            return True
+
+    def sprosti(self, stol):
+        assert stol in self
+        self.remove(stol)
+
+
+p1 = Predavalnica("P1", 100)
+ana = Student("Ana", "Ž")
 
