@@ -1,5 +1,5 @@
 import unittest
-from test.support import captured_stdout
+from drugo.test import captured_stdout
 
 
 otroci = {
